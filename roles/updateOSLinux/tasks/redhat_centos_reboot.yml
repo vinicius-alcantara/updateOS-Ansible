@@ -1,0 +1,9 @@
+---
+
+ - name: System Reboot
+   reboot:
+   async: 10
+   poll: 0
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+...

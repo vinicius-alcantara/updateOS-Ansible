@@ -1,0 +1,259 @@
+---
+
+ - name: Os release
+   shell: cat /etc/oracle-release
+   register: os_old_release
+   when: ansible_distribution == "OracleLinux"
+
+ - name: Kernel Version
+   shell: uname -r
+   register: kernel_old_version
+   when: ansible_distribution == "OracleLinux"
+
+ - debug:
+     msg: "OS Release: {{ os_old_release.stdout }} | Kernel Version: {{ kernel_old_version.stdout }}"
+   when: ansible_distribution == "OracleLinux"
+
+ - name: Install libselinux-python package - Oracle Linux 6.8
+   yum:
+     name: libselinux-python
+     state: present
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "6.8"
+
+ - name: Install libselinux-python package - Oracle Linux 6.9
+   yum:
+     name: libselinux-python
+     state: present
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "6.9"
+
+ - name: Install libselinux-python package - Oracle Linux 6.10
+   yum:
+     name: libselinux-python
+     state: present
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "6.10"
+
+ - name: Rename Dir Others Repo Backup
+   shell: mv /etc/yum.repos.d/ /etc/bk-yum.repos.d/
+   when: ansible_distribution == "OracleLinux"
+
+ - name: Create New Dir yum.repos.d
+   file:
+     path: /etc/yum.repos.d/
+     state: directory
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux"
+
+ - name: Copy for new yum.repos.d - Repo Base 6.8
+   copy:
+     src: /etc/bk-yum.repos.d/public-yum-ol6.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "6.8"
+   
+ - name: Copy for new yum.repos.d - Repo Base 6.9
+   copy:
+     src: /etc/bk-yum.repos.d/public-yum-ol6.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "6.9"
+
+ - name: Copy for new yum.repos.d - Repo Base 6.10
+   copy:
+     src: /etc/bk-yum.repos.d/public-yum-ol6.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "6.10"
+
+ - name: Copy for new yum.repos.d - Repo Base 7.7
+   copy:
+     src: /etc/bk-yum.repos.d/oracle-linux-ol7.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "7.7"
+
+ - name: Copy for new yum.repos.d - Repo Base 7.8
+   copy:
+     src: /etc/bk-yum.repos.d/oracle-linux-ol7.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "7.8"
+
+ - name: Copy for new yum.repos.d - Repo Base 7.9
+   copy:
+     src: /etc/bk-yum.repos.d/oracle-linux-ol7.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "7.9"
+      
+ - name: Copy for new yum.repos.d - Repo Base 8.4
+   copy:
+     src: /etc/bk-yum.repos.d/oracle-linux-ol8.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "8.4"
+
+ - name: Copy for new yum.repos.d - Repo Base 8.5
+   copy:
+     src: /etc/bk-yum.repos.d/oracle-linux-ol8.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "8.5"
+
+ - name: Copy for new yum.repos.d - Repo Base 8.6
+   copy:
+     src: /etc/bk-yum.repos.d/oracle-linux-ol8.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "8.6"
+
+ - name: Copy for new yum.repos.d - Repo Base 9.0
+   copy:
+     src: /etc/bk-yum.repos.d/oracle-linux-ol9.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "9.0"
+
+ - name: Copy for new yum.repos.d - Repo Kernel 7.7
+   copy:
+     src: /etc/bk-yum.repos.d/uek-ol7.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "7.7"
+
+ - name: Copy for new yum.repos.d - Repo Kernel 7.8
+   copy:
+     src: /etc/bk-yum.repos.d/uek-ol7.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "7.8"   
+
+ - name: Copy for new yum.repos.d - Repo Kernel 7.9
+   copy:
+     src: /etc/bk-yum.repos.d/uek-ol7.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "7.9"   
+
+ - name: Copy for new yum.repos.d - Repo Kernel 8.4
+   copy:
+     src: /etc/bk-yum.repos.d/uek-ol8.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "8.4"
+
+ - name: Copy for new yum.repos.d - Repo Kernel 8.5
+   copy:
+     src: /etc/bk-yum.repos.d/uek-ol8.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "8.5"
+
+ - name: Copy for new yum.repos.d - Repo Kernel 8.6
+   copy:
+     src: /etc/bk-yum.repos.d/uek-ol8.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "8.6"   
+
+ - name: Copy for new yum.repos.d - Repo Kernel 9.0
+   copy:
+     src: /etc/bk-yum.repos.d/uek-ol9.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "OracleLinux" and ansible_distribution_version == "9.0"   
+
+ - name: Update OS
+   yum:
+     name: "*"
+     state: latest
+     update_cache: yes
+#   async: 10
+#   poll: 0
+   when: ansible_distribution == "OracleLinux"
+
+ - name: Remove directory yum.repos.d
+   file:
+     path: /etc/yum.repos.d/
+     state: absent
+   when: ansible_distribution == "OracleLinux"
+
+ - name: Rename Dir bk-yum.repos.d
+   shell: mv /etc/bk-yum.repos.d/ /etc/yum.repos.d/
+   when: ansible_distribution == "OracleLinux"
+
+# - name: Removing Old Kernels
+#   command: package-cleanup --oldkernels --count=1 -y
+#   when: ansible_distribution == "OracleLinux"
+
+ - name: System Reboot
+   reboot:
+   when: ansible_distribution == "OracleLinux"
+
+ - name: Os release
+   shell: cat /etc/oracle-release
+   register: os_new_release
+   when: ansible_distribution == "OracleLinux"
+
+ - name: Kernel Version
+   shell: uname -r
+   register: kernel_new_version
+   when: ansible_distribution == "OracleLinux"
+
+ - debug:
+     msg: "OS Release: {{ os_new_release.stdout }} | Kernel Version: {{ kernel_new_version.stdout }}"
+   when: ansible_distribution == "OracleLinux"
+
+...

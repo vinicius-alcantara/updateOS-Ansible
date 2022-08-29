@@ -1,0 +1,39 @@
+---
+
+ - name: List Java Version Installed
+   shell: /opt/jdk1.*/bin/java -version
+   register: java_version_old_installed
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - debug:
+     msg: "java version installed: {{ java_version_old_installed.stderr }}"
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Remove Java
+   shell: cd /opt/ && rm -rf jdk1.*
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Download Java 14
+   get_url: 
+     url: https://download.java.net/java/GA/jdk14/076bab302c7b4508975440c56f6cc26a/36/GPL/openjdk-14_linux-x64_bin.tar.gz 
+     dest: /home/agility
+     mode: '0775'
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Unzip Java and move /opt Dir 
+   unarchive:
+     src: /home/agility/openjdk-14_linux-x64_bin.tar.gz
+     dest: /opt
+     remote_src: yes
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: List Java Version Installed
+   shell: /opt/jdk-14/bin/java -version
+   register: java_version_new_installed
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - debug:
+     msg: "java version installed: {{ java_version_new_installed.stderr }}"
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+...

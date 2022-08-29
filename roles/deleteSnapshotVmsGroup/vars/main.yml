@@ -1,0 +1,7 @@
+---
+# vars file for deleteSnapshotVmsGroup
+
+snapshot_name: ""
+#### CONSTANTS - WARNING: NO MODIFY ####
+dir_script: "/usr/local/script" #### !!!! DANGER - NEVER, NERVER MODIFY !!!! ####
+delete_script_path: "/usr/local/script/deleteSnapshotVmsGroup.sh"

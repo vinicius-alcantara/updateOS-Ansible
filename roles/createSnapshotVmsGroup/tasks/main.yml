@@ -1,0 +1,6 @@
+---
+# tasks file for snapshotVMsNutanix
+
+ - name: Create Snapshot VMs Group
+   include_tasks: createSnapshotVmsGroup.yml
+

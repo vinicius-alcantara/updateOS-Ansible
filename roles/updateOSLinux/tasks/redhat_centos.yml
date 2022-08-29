@@ -1,0 +1,102 @@
+---
+
+ - name: Os release
+   shell: cat /etc/redhat-release
+   register: os_old_release
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Kernel Version
+   shell: uname -r
+   register: kernel_old_version
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+   # - debug:
+   #  msg: "OS Release: {{ os_old_release.stdout }} | Kernel Version: {{ kernel_old_version.stdout }}"
+   #when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Rename Dir Others Repo Backup
+   shell: mv /etc/yum.repos.d/ /etc/bk-yum.repos.d/
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Create New Dir yum.repos.d
+   file:
+     path: /etc/yum.repos.d/
+     state: directory
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Copy for new yum.repos.d - Repo Base 
+   copy:
+     src: /etc/bk-yum.repos.d/CentOS-Base.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Copy for new yum.repos.d - Repo Kernel
+   copy:
+     src: /etc/bk-yum.repos.d/CentOS-x86_64-kernel.repo
+     dest: /etc/yum.repos.d/
+     remote_src: yes
+     owner: root
+     group: root
+     mode: '0755'
+   ignore_errors: yes
+   failed_when: false
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Update OS
+   yum:
+     name: "*"
+     state: latest
+     update_cache: yes
+   async: 10
+   poll: 0
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Remove directory yum.repos.d
+   file:
+     path: /etc/yum.repos.d/
+     state: absent
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Rename Dir bk-yum.repos.d
+   shell: mv /etc/bk-yum.repos.d/ /etc/yum.repos.d/
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+   # - name: System Reboot
+   #reboot:
+   #async: 10
+   #poll: 0
+   #when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Removing Old Kernels
+   command: package-cleanup --oldkernels --count=1 -y
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+   # - name: Start All Services
+   #   shell: bash /opt/start-services/all-services.sh
+   #ignore_errors: yes
+   #failed_when: false
+   #async: 10
+   #poll: 0
+   #when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Os release
+   shell: cat /etc/redhat-release
+   register: os_new_release
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - name: Kernel Version
+   shell: uname -r
+   register: kernel_new_version
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+ - debug:
+     msg: "OS Release: {{ os_new_release.stdout }} | Kernel Version: {{ kernel_new_version.stdout }}"
+   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+...

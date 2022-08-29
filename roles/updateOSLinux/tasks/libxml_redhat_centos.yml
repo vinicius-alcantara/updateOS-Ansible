@@ -1,0 +1,51 @@
+---
+
+  - name: libxml version package installed
+    shell: rpm -qa|grep libxml2
+    register: libxml_version_old_installed
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+  - debug:
+      msg: "libxml version installed: {{ libxml_version_old_installed.stdout }}"
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+  - name: Remove old versions libxml2 and libxml2-python
+    shell: rpm -e --nodeps libxml2 libxml2-python
+    ignore_errors: yes
+    failed_when: false
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+  - name: Download New Version libxml2
+    get_url:
+      url: ftp://xmlsoft.org/libxml2/libxml2-2.9.9-1.fc28.x86_64.rpm
+      dest: "{{ user_home_dir }}"
+      mode: '0775'
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+  - name: Download New Version libxml2-python
+    get_url:
+      url: ftp://xmlsoft.org/libxml2/python-libxml2-2.9.9-1.fc28.x86_64.rpm
+      dest: "{{ user_home_dir }}"
+      mode: '0775'
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+  - name: Install New Version libxml2 and libxml2-python
+    shell: cd "{{ user_home_dir }}" && rpm -i libxml2-2.9.9-1.fc28.x86_64.rpm && rpm -i python-libxml2-2.9.9-1.fc28.x86_64.rpm
+    ignore_errors: yes
+    failed_when: false
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+  - name: Remove Download Packages RPM
+    shell: cd "{{ user_home_dir }}" && rm -rf libxml2-2.9.9-1.fc28.x86_64.rpm python-libxml2-2.9.9-1.fc28.x86_64.rpm
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+  - name: libxml version package installed
+    shell: rpm -qa|grep libxml2
+    register: libxml_version_new_installed
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+  - debug:
+      msg: "libxml new version: {{ libxml_version_new_installed.stdout }}"
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+...

@@ -1,0 +1,8 @@
+---
+
+ - name: Update Linux OS 
+   hosts: all
+   roles:
+     - updateOSLinux
+
+...

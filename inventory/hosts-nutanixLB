@@ -1,0 +1,4 @@
+[nutanixLB]
+
+NUTANIX-LB ansible_host=10.40.2.23 #CONSTANT - NO MODIFY
+

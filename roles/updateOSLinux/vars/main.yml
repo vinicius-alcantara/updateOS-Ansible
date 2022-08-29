@@ -1,0 +1,6 @@
+---
+# vars file for update7.8
+new_kernel_latest_centos:
+new_kernel_latest_ubuntu:
+user_home_dir: "/home/user"
+#user_home_dir: "/home/agility"

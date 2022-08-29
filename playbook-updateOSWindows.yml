@@ -1,0 +1,7 @@
+---
+
+ - name: Update Windows OS
+   hosts: all
+   roles:
+     - updateOSWindows
+...

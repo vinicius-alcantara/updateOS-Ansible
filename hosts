@@ -1,0 +1,5 @@
+#[serversWindows]
+#10.50.4.161
+
+#WINDOWS-TEST ansible_host=
+#WIN ansible_host=10.50.4.161

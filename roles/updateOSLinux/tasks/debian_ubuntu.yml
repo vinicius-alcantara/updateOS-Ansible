@@ -1,0 +1,90 @@
+---
+
+ - name: Os release
+   shell: cat /etc/issue
+   register: os_old_release
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Kernel Version
+   shell: uname -r
+   register: kernel_old_version
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - debug:
+     msg: "OS Release: {{ os_old_release.stdout }} | Kernel Version: {{ kernel_old_version.stdout }}"
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Rename Dir Others Repo Backup
+   shell: mv /etc/apt/sources.list.d /etc/apt/bk-sources.list.d
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Remove lock-apt - if exist
+   file:
+     path: /var/lib/apt/lists/lock
+     state: absent
+     force: yes
+   ignore_errors: yes
+   failed_when: false
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Remove lock-frontend - if exist
+   file:
+     path: /var/lib/dpkg/lock-frontend
+     state: absent
+     force: yes
+   ignore_errors: yes
+   failed_when: false
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Remove lock-dpkg - if exist
+   file:
+     path: /var/lib/dpkg/lock
+     state: absent
+     force: yes
+   ignore_errors: yes
+   failed_when: false
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Update && Upgrade Packages
+   apt:
+     name: "*"
+     state: latest
+     update_cache: yes
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Dist Upgrade
+   apt:
+    upgrade: dist
+    update_cache: yes
+    dpkg_options: 'force-confold,force-confdef'
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: System Reboot
+   reboot:
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Removing Old Kernels
+   apt:
+    autoremove: yes
+    purge: yes
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Rename Dir Others Repo Defult
+   shell: mv /etc/apt/bk-sources.list.d /etc/apt/sources.list.d
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Os release
+   shell: cat /etc/issue
+   register: os_release
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - name: Kernel Version
+   shell: uname -r
+   register: kernel_version
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+ - debug:
+     msg: "OS Release: {{ os_release.stdout }} | Kernel Version: {{ kernel_version.stdout }}"
+   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+...

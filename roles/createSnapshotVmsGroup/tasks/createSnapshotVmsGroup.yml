@@ -1,0 +1,36 @@
+---
+ 
+ - name: Create a directory script nutanix
+   file:
+     path: "{{ dir_script }}"
+     state: directory
+     mode: '0744'
+   ignore_errors: yes
+   failed_when: false
+   when: (ansible_default_ipv4.address == "{{ cvm_host01 }}" or ansible_default_ipv4.address == "{{ cvm_host02 }}") or
+         (ansible_default_ipv4.address == "{{ cvm_host03 }}" or ansible_default_ipv4.address == "{{ cvm_host04 }}") or
+         (ansible_default_ipv4.address == "{{ cvm_host05 }}" or ansible_default_ipv4.address == "{{ cvm_host06 }}")
+
+ - name: Copy Script template
+   template:
+     src: createSnapshotVmsGroup.j2
+     dest: "{{ create_script_path }}"
+     owner: root
+     group: root
+     mode: 0744
+   ignore_errors: yes
+   failed_when: false
+   when: (ansible_default_ipv4.address == "{{ cvm_host01 }}" or ansible_default_ipv4.address == "{{ cvm_host02 }}") or
+         (ansible_default_ipv4.address == "{{ cvm_host03 }}" or ansible_default_ipv4.address == "{{ cvm_host04 }}") or
+         (ansible_default_ipv4.address == "{{ cvm_host05 }}" or ansible_default_ipv4.address == "{{ cvm_host06 }}")
+
+ - name: Exec Script Create Snapshot
+   command: bash "{{ create_script_path }}"
+   ignore_errors: yes
+   failed_when: false
+   when: (ansible_default_ipv4.address == "{{ cvm_host01 }}" or ansible_default_ipv4.address == "{{ cvm_host02 }}") or
+         (ansible_default_ipv4.address == "{{ cvm_host03 }}" or ansible_default_ipv4.address == "{{ cvm_host04 }}") or
+         (ansible_default_ipv4.address == "{{ cvm_host05 }}" or ansible_default_ipv4.address == "{{ cvm_host06 }}")
+
+...
+

@@ -1,0 +1,5 @@
+---
+# tasks file for deleteSnapshotVmsGroup
+
+ - name: Delete Snapshot VMs Group
+   include_tasks: deleteSnapshotVmsGroup.yml

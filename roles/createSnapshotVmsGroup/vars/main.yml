@@ -1,0 +1,28 @@
+---
+# vars file for snapshotVMsNutanix
+
+vms_group_prefix: "SRM-HOMOLOGACAO-WINDOWS"
+snapshot_name: "updateOSTest"
+#### Obs:. VMs Group Name
+# INFRA-LINUX - INFRA-PRODUCAO-LINUX - INFRA-WINDOWS - INFRA-PRODUCAO-WINDOWS
+# SRM-HOMOLOGACAO-LINUX - SRM-PRODUCAO-LINUX - SRM-HOMOLOGACAO-WINDOWS - SRM-PRODUCAO-WINDOWS
+# M18-HOMOLOGACAO-LINUX - M18-PRODUCAO-LINUX
+# TRUSTHUB-HOMOLOGACAO-LINUX - TRUSTHUB-PRODUCAO-LINUX
+
+#### CONSTANTS - WARNING: NO MODIFY ####
+dir_script: "/usr/local/script" #### !!!! DANGER - NEVER, NERVER MODIFY !!!! ####
+create_script_path: "/usr/local/script/createSnapshotVmsGroup.sh"
+#### API CREDENTIALS AND CONFIG ACCESS ####
+cvm_host_url: "https://10.40.2.23" ### LoadBalancer (VIP)
+cvm_host_port: ":9440"
+cvm_uri_api: "/PrismGateway/services/rest/v2.0/snapshots/"
+user_api: "agility.alcantara@rmansur.com.br"
+pass_api: "Mudar@123"
+#### CVMs CLUSTER NUTANIX ####
+cvm_host01: "10.40.2.17"
+cvm_host02: "10.40.2.18"
+cvm_host03: "10.40.2.19"
+cvm_host04: "10.40.2.20"
+cvm_host05: "10.40.2.21"
+cvm_host06: "10.40.2.22"
+
