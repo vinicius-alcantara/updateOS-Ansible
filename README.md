@@ -19,7 +19,7 @@ ansible-galaxy
 ansible-vault
 ```
 
-## Examplo de execução do playbook
+## Exemplo de execução do playbook
  
 ```bash
 
